@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Bienal</string>
+
+    <string name="main_cadastrar_pessoa">Cadastrar Pessoa</string>
+    <string name="main_cadastrar_livro">Cadastrar Livro</string>
+    <string name="main_reservar_livro">Reservar Livro</string>
+
+    <string name="pessoa_title">DADOS</string>
+    <string name="pessoa_format_nome">Nome: %s</string>
+    <string name="pessoa_format_email">Email: %s</string>
+    <string name="pessoa_format_entrada">Entrada: %s</string>
+    <string name="pessoa_format_saida">Saída: %s</string>
+    <string name="pessoa_data_inexistente">Não informado</string>
+    <string name="cadastro_pessoas_title">Cadastro de pessoas</string>
+    <string name="cadastro_pessoa_hint_nome">Nome completo</string>
+    <string name="cadastro_pessoa_hint_email">Email</string>
+    <string name="all_cadastrar">Cadastrar</string>
+</resources>
