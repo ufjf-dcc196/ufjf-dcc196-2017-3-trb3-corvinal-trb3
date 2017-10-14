@@ -14,5 +14,17 @@
     <string name="cadastro_pessoas_title">Cadastro de pessoas</string>
     <string name="cadastro_pessoa_hint_nome">Nome completo</string>
     <string name="cadastro_pessoa_hint_email">Email</string>
+    <string name="cadastro_livros_title">Cadastro de livros</string>
+    <string name="cadastro_livros_hint_titulo">Título</string>
+    <string name="cadastro_livros_hint_editora">Editora</string>
+    <string name="cadastro_livros_hint_ano_publicacao">Ano Publicação</string>
+    <string name="cadastro_reservas_title">Cadastro de reservas</string>
+    <string name="cadastro_reservas_hint_livro">Livro</string>
+    <string name="cadastro_reservas_hint_pessoa">Pessoa</string>
+    <string name="livro_format_titulo">Título: %s</string>
+    <string name="livro_format_editora">Editora: %s</string>
+    <string name="livro_format_anoPublicacao">Ano de Publicação: %s</string>
     <string name="all_cadastrar">Cadastrar</string>
+
+
 </resources>

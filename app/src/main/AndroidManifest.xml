@@ -16,8 +16,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.LivroActivity" />
         <activity android:name=".ui.PessoaActivity" />
         <activity android:name=".ui.CadastroPessoaActivity"></activity>
+        <activity android:name=".ui.CadastroLivroActivity"></activity>
+        <activity android:name=".ui.CadastroReservaActivity"></activity>
     </application>
 
 </manifest>

@@ -6,38 +6,35 @@
     android:layout_height="match_parent"
     tools:context="com.example.fernanda.trabalho1.ui.MainActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_marginTop="5dp"
-        android:gravity="center"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:id="@+id/btn_main_cadastrar_pessoa"
-            android:layout_width="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/main_cadastrar_pessoa"
-            android:layout_height="match_parent" />
-
-        <Button
-            android:id="@+id/btn_main_cadastrar_livro"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/main_cadastrar_livro"/>
-    </LinearLayout>
 
     <Button
-        android:id="@+id/btn_main_reservar_livro"
+        android:id="@+id/btn_main_cadastrar_pessoa"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginBottom="10dp"
-        android:text="@string/main_reservar_livro"/>
+        android:text="@string/main_cadastrar_pessoa" />
 
     <ListView
         android:id="@+id/lv_pessoas"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="180dp"/>
+
+    <Button
+        android:id="@+id/btn_main_cadastrar_livro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/main_cadastrar_livro" />
+
+    <ListView
+        android:id="@+id/lv_livros"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"/>
+
+    <Button
+        android:id="@+id/btn_main_reservar_livro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/main_reservar_livro"/>
 
 </LinearLayout>
