@@ -13,6 +13,7 @@ import com.example.fernanda.trabalho1.model.Pessoa;
 public class CadastroPessoaActivity extends AppCompatActivity {
 
     static final String CADASTRO_PESSOA_KEY = "cadastro_pessoa_key";
+    static final String ID_PESSOA_KEY = "id_pessoa_key";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,12 +28,14 @@ public class CadastroPessoaActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String nome = etNome.getText().toString();
                 String email = etEmail.getText().toString();
+
                 if(nome.isEmpty()){
                     ViewUtils.showToast(CadastroPessoaActivity.this, "O nome é obrigatório!");
                 } else if (email.isEmpty()){
                     ViewUtils.showToast(CadastroPessoaActivity.this, "O email é obrigatório!");
                 } else {
-                    Pessoa pessoa = new Pessoa(nome, email);
+                    int id = getIntent().getIntExtra(ID_PESSOA_KEY, 0);
+                    Pessoa pessoa = new Pessoa(id, nome, email);
                     Intent intent = new Intent();
                     intent.putExtra(CADASTRO_PESSOA_KEY, pessoa);
                     setResult(RESULT_OK, intent);

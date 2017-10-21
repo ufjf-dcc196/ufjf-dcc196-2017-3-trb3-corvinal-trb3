@@ -21,9 +21,9 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import static com.example.fernanda.trabalho1.ui.CadastroReservaActivity.CADASTRO_RESERVA_KEY;
 import static com.example.fernanda.trabalho1.ui.CadastroLivroActivity.CADASTRO_LIVRO_KEY;
 import static com.example.fernanda.trabalho1.ui.CadastroPessoaActivity.CADASTRO_PESSOA_KEY;
+import static com.example.fernanda.trabalho1.ui.CadastroReservaActivity.CADASTRO_RESERVA_KEY;
 import static com.example.fernanda.trabalho1.ui.LivroActivity.LIVRO_KEY;
 import static com.example.fernanda.trabalho1.ui.PessoaActivity.PESSOA_KEY;
 
@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int CADASTRO_PESSOA_REQUEST_CODE = 10;
     private static final int CADASTRO_LIVRO_REQUEST_CODE = 20;
     private static final int CADASTRO_RESERVA_REQUEST_CODE = 30;
+    private static final int LIVRO_REQUEST_CODE = 40;
+    private static final int PESSOA_REQUEST_CODE = 50;
 
     private static List<Pessoa> pessoas;
     private static List<Livro> livros;
@@ -53,11 +55,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void popularDados() {
-        pessoas = new ArrayList<>(Arrays.asList(new Pessoa("Gabriel", "gabriel@a.b"),
-                new Pessoa("Fernanda", "fernanda@a.b"), new Pessoa("Thassya", "thassya@a.b")));
-        livros = new ArrayList<>(Arrays.asList(new Livro("Harry Potter", "Rocco", "1996"),
-                new Livro("Game of Thrones", "Leya", "2005"),
-                new Livro("Percy Jackson", "Abril", "2002")));
+        pessoas = new ArrayList<>(Arrays.asList(new Pessoa(0, "Gabriel", "gabriel@a.b"),
+                new Pessoa(1, "Fernanda", "fernanda@a.b"), new Pessoa(2, "Thassya", "thassya@a.b")));
+        livros = new ArrayList<>(Arrays.asList(new Livro(0, "Harry Potter", "Rocco", "1996"),
+                new Livro(1, "Game of Thrones", "Leya", "2005"),
+                new Livro(2, "Percy Jackson", "Abril", "2002")));
         reservas = new ArrayList<>();
     }
 
@@ -98,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(MainActivity.this, PessoaActivity.class);
                 intent.putExtra(PESSOA_KEY, pessoas.get(i));
-                startActivity(intent);
+                startActivityForResult(intent, PESSOA_REQUEST_CODE);
             }
         });
     }
@@ -113,7 +115,8 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(MainActivity.this, LivroActivity.class);
                 intent.putExtra(LIVRO_KEY, livros.get(i));
-                startActivity(intent);
+                intent.putParcelableArrayListExtra(LivroActivity.RESERVAS_KEY, (ArrayList<Reserva>) reservas);
+                startActivityForResult(intent, LIVRO_REQUEST_CODE);
             }
         });
     }
@@ -124,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, CadastroPessoaActivity.class);
+                intent.putExtra(CadastroPessoaActivity.ID_PESSOA_KEY, pessoas.size());
                 startActivityForResult(intent, CADASTRO_PESSOA_REQUEST_CODE);
             }
         });
@@ -133,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, CadastroLivroActivity.class);
+                intent.putExtra(CadastroLivroActivity.ID_LIVRO_KEY, livros.size());
                 startActivityForResult(intent, CADASTRO_LIVRO_REQUEST_CODE);
             }
         });
@@ -142,6 +147,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, CadastroReservaActivity.class);
+                intent.putParcelableArrayListExtra(CadastroReservaActivity.LIVROS_KEY,
+                        (ArrayList<Livro>) livros);
+                intent.putParcelableArrayListExtra(CadastroReservaActivity.PESSOAS_KEY,
+                        (ArrayList<Pessoa>) pessoas);
                 startActivityForResult(intent, CADASTRO_RESERVA_REQUEST_CODE);
             }
         });
@@ -161,31 +170,22 @@ public class MainActivity extends AppCompatActivity {
                     Livro livro = data.getParcelableExtra(CADASTRO_LIVRO_KEY);
                     livros.add(livro);
                     ((BaseAdapter) lvLivros.getAdapter()).notifyDataSetChanged();
+                    break;
                 case CADASTRO_RESERVA_REQUEST_CODE:
                     Reserva reserva = data.getParcelableExtra(CADASTRO_RESERVA_KEY);
                     reservas.add(reserva);
                     break;
+                case LIVRO_REQUEST_CODE:
+                    Livro livroEditado = data.getParcelableExtra(LIVRO_KEY);
+                    livros.set(livroEditado.getId(), livroEditado);
+                    ((BaseAdapter) lvLivros.getAdapter()).notifyDataSetChanged();
+                    break;
+                case PESSOA_REQUEST_CODE:
+                    Pessoa pessoaEditada = data.getParcelableExtra(PESSOA_KEY);
+                    pessoas.set(pessoaEditada.getId(), pessoaEditada);
+                    ((BaseAdapter) lvPessoas.getAdapter()).notifyDataSetChanged();
+                    break;
             }
         }
-    }
-
-    public static Livro RetornaLivroPosicao(int indice){
-        return  livros.get(indice);
-    }
-
-    public static Pessoa RetornaPessoaPosicao(int indice){
-        return pessoas.get(indice);
-    }
-
-    public static List<Livro> RetornaLivros(){
-        return  livros;
-    }
-
-    public static List<Pessoa> RetornaPessoas(){
-        return pessoas;
-    }
-
-    public static List<Reserva> RetornaReservas(){
-        return reservas;
     }
 }

@@ -6,14 +6,21 @@ import android.os.Parcelable;
 import java.util.Date;
 
 public class Pessoa implements Parcelable {
+
+    private int id;
     private final String nome;
     private final String email;
     private Date horarioEntrada;
     private Date horarioSaida;
 
-    public Pessoa(String nome, String email) {
+    public Pessoa(int id, String nome, String email) {
+        this.id = id;
         this.nome = nome;
         this.email = email;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getNome() {
@@ -46,6 +53,7 @@ public class Pessoa implements Parcelable {
     }
 
     Pessoa(Parcel in) {
+        id = in.readInt();
         nome = in.readString();
         email = in.readString();
 
@@ -74,6 +82,7 @@ public class Pessoa implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
         parcel.writeString(nome);
         parcel.writeString(email);
         parcel.writeLong(horarioEntrada == null ? -1 : horarioEntrada.getTime());

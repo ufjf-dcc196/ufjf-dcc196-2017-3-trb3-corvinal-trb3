@@ -10,14 +10,10 @@ import android.widget.EditText;
 import com.example.fernanda.trabalho1.R;
 import com.example.fernanda.trabalho1.model.Livro;
 
-
-/**
- * Created by fernanda on 13/10/17.
- */
-
 public class CadastroLivroActivity extends AppCompatActivity {
 
     static final String CADASTRO_LIVRO_KEY = "cadastro_livro_key";
+    static final String ID_LIVRO_KEY = "id_livro_key";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +39,8 @@ public class CadastroLivroActivity extends AppCompatActivity {
                 } else if(anoPublicacao.isEmpty()){
                     ViewUtils.showToast(CadastroLivroActivity.this, "O ano de publicação é obrigatório!");
                 } else {
-                    Livro livro = new Livro(titulo, editora , anoPublicacao);
+                    int id = getIntent().getIntExtra(ID_LIVRO_KEY, 0);
+                    Livro livro = new Livro(id, titulo, editora , anoPublicacao);
                     Intent intent = new Intent();
                     intent.putExtra(CADASTRO_LIVRO_KEY, livro);
                     setResult(RESULT_OK, intent);

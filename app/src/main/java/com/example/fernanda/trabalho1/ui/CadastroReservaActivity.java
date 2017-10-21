@@ -18,6 +18,8 @@ import java.util.List;
 public class CadastroReservaActivity extends AppCompatActivity {
 
     static final String CADASTRO_RESERVA_KEY = "cadastro_reserva_key";
+    static final String LIVROS_KEY = "livros_key";
+    static final String PESSOAS_KEY = "pessoas_key";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,14 +30,14 @@ public class CadastroReservaActivity extends AppCompatActivity {
         final Spinner spPessoa = (Spinner)findViewById(R.id.et_pessoa);
         final Button btnCadastrar = (Button) findViewById(R.id.btn_cadastrar_reserva);
 
-        List<Livro> livros = MainActivity.RetornaLivros();
-        List<Pessoa> pessoas = MainActivity.RetornaPessoas();
+        final List<Livro> livros = getIntent().getParcelableArrayListExtra(LIVROS_KEY);
+        final List<Pessoa> pessoas = getIntent().getParcelableArrayListExtra(PESSOAS_KEY);
 
-        ArrayAdapter<Livro> livroArrayAdapter = new ArrayAdapter<Livro>(this, android.R.layout.simple_spinner_dropdown_item, livros);
+        ArrayAdapter<Livro> livroArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, livros);
         livroArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         spLivro.setAdapter(livroArrayAdapter);
 
-        ArrayAdapter<Pessoa> pessoaArrayAdapter = new ArrayAdapter<Pessoa>(this, android.R.layout.simple_spinner_dropdown_item, pessoas);
+        ArrayAdapter<Pessoa> pessoaArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, pessoas);
         pessoaArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         spPessoa.setAdapter(pessoaArrayAdapter);
 
@@ -53,15 +55,14 @@ public class CadastroReservaActivity extends AppCompatActivity {
                 } else if (pessoaString.isEmpty()){
                     ViewUtils.showToast(CadastroReservaActivity.this, "A pessoa é obrigatório!");
                 } else {
-                    Livro livro = MainActivity.RetornaLivroPosicao(livroIndice);
-                    Pessoa pessoa = MainActivity.RetornaPessoaPosicao(pessoaIndice);
+                    Livro livro = livros.get(livroIndice);
+                    Pessoa pessoa = pessoas.get(pessoaIndice);
 
                     Reserva reserva = new Reserva(pessoa , livro);
                     Intent intent = new Intent();
                     intent.putExtra(CADASTRO_RESERVA_KEY, reserva);
                     setResult(RESULT_OK, intent);
                     finish();
-
                 }
             }
         });

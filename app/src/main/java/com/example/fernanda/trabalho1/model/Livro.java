@@ -4,14 +4,21 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Livro implements Parcelable {
+
+    private final int id;
     private final String titulo;
     private final String editora;
     private final String anoPublicacao;
 
-    public Livro(String titulo, String editora, String anoPublicacao) {
+    public Livro(int id, String titulo, String editora, String anoPublicacao) {
+        this.id = id;
         this.titulo = titulo;
         this.editora = editora;
         this.anoPublicacao = anoPublicacao;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getTitulo() {
@@ -32,6 +39,7 @@ public class Livro implements Parcelable {
     }
 
     Livro(Parcel in) {
+        id = in.readInt();
         titulo = in.readString();
         editora = in.readString();
         anoPublicacao = in.readString();
@@ -56,7 +64,7 @@ public class Livro implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-
+        parcel.writeInt(id);
         parcel.writeString(titulo);
         parcel.writeString(editora);
         parcel.writeString(anoPublicacao);
