@@ -56,9 +56,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        pessoas = pessoaDao.getPessoas();
-        livros = livroDao.getLivros();
+        updatePessoas();
+        updateLivros();
+    }
+
+    private void updatePessoas() {
+        pessoas.clear();
+        pessoas.addAll(pessoaDao.getPessoas());
         updateAdapter(lvPessoas);
+    }
+
+    private void updateLivros() {
+        livros.clear();
+        livros.addAll(livroDao.getLivros());
         updateAdapter(lvLivros);
     }
 
@@ -168,6 +178,5 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 }
