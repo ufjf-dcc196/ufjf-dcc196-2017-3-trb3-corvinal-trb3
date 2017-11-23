@@ -1,6 +1,7 @@
 package com.example.fernanda.trabalho1.ui;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -12,6 +13,10 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.example.fernanda.trabalho1.R;
+import com.example.fernanda.trabalho1.dao.ContratoBanco;
+import com.example.fernanda.trabalho1.dao.LivroDao;
+import com.example.fernanda.trabalho1.dao.PessoaDao;
+import com.example.fernanda.trabalho1.dao.ReservaDao;
 import com.example.fernanda.trabalho1.model.Livro;
 import com.example.fernanda.trabalho1.model.Pessoa;
 import com.example.fernanda.trabalho1.model.Reserva;
@@ -31,15 +36,20 @@ import static com.example.fernanda.trabalho1.ui.PessoaActivity.PESSOA_KEY;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String NOME_BD = "bd_bienal";
     private static final int CADASTRO_PESSOA_REQUEST_CODE = 10;
     private static final int CADASTRO_LIVRO_REQUEST_CODE = 20;
     private static final int CADASTRO_RESERVA_REQUEST_CODE = 30;
     private static final int LIVRO_REQUEST_CODE = 40;
     private static final int PESSOA_REQUEST_CODE = 50;
 
-    private static List<Pessoa> pessoas;
-    private static List<Livro> livros;
-    private static List<Reserva> reservas;
+    private List<Pessoa> pessoas;
+    private List<Livro> livros;
+    private List<Reserva> reservas;
+
+    private PessoaDao pessoaDao;
+    private LivroDao livroDao;
+    private ReservaDao reservaDao;
 
     private ListView lvPessoas;
     private ListView lvLivros;
@@ -49,29 +59,55 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        criarDb();
         popularDados();
         setupListView();
         setupButtons();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        pessoas = pessoaDao.getPessoas();
+        livros = livroDao.getLivros();
+        reservas = reservaDao.getReservas();
+        updateAdapter(lvPessoas);
+        updateAdapter(lvLivros);
+    }
+
+    private void updateAdapter(ListView listView) {
+        ((BaseAdapter) listView.getAdapter()).notifyDataSetChanged();
+    }
+
+    private void criarDb() {
+        SQLiteDatabase db = openOrCreateDatabase(NOME_BD, MODE_PRIVATE, null);
+        ContratoBanco.criarTabelas(db);
+        pessoaDao = new PessoaDao(db);
+        livroDao = new LivroDao(db);
+        reservaDao = new ReservaDao(db);
+    }
+
     private void popularDados() {
-        pessoas = new ArrayList<>(Arrays.asList(new Pessoa(0, "Gabriel", "gabriel@a.b"),
+        pessoas = new ArrayList<>(Arrays.asList(new Pessoa(4, "Gabriel2.0", "gabriel@a.b"),
                 new Pessoa(1, "Fernanda", "fernanda@a.b"), new Pessoa(2, "Thassya", "thassya@a.b")));
         livros = new ArrayList<>(Arrays.asList(new Livro(0, "Harry Potter", "Rocco", "1996"),
                 new Livro(1, "Game of Thrones", "Leya", "2005"),
                 new Livro(2, "Percy Jackson", "Abril", "2002")));
-        reservas = new ArrayList<>();
+
+        for(Pessoa pessoa : pessoas) pessoaDao.inserirPessoa(pessoa);
+
+        for(Livro livro: livros) livroDao.inserirLivro(livro);
+
+        reservaDao.inserirReserva(new Reserva(pessoas.get(1), livros.get(2)));
     }
 
     private void setupListView(){
-
         setupListViewPessoa();
-
         setupListViewLivro();
     }
 
     private void setupListViewPessoa() {
-        final ListAdapter pessoasAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,pessoas);
+        final ListAdapter pessoasAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, pessoas);
         lvPessoas = (ListView) findViewById(R.id.lv_pessoas);
         lvPessoas.setAdapter(pessoasAdapter);
         lvPessoas.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -91,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
                     pessoa.setHorarioSaida(null);
                     ViewUtils.showToast(MainActivity.this, "Horários resetados com sucesso");
                 }
+                pessoaDao.updatePessoa(pessoa);
                 return true;
             }
         });
@@ -164,12 +201,12 @@ public class MainActivity extends AppCompatActivity {
                 case CADASTRO_PESSOA_REQUEST_CODE:
                     Pessoa pessoa = data.getParcelableExtra(CADASTRO_PESSOA_KEY);
                     pessoas.add(pessoa);
-                    ((BaseAdapter) lvPessoas.getAdapter()).notifyDataSetChanged();
+                    updateAdapter(lvPessoas);
                     break;
                 case CADASTRO_LIVRO_REQUEST_CODE:
                     Livro livro = data.getParcelableExtra(CADASTRO_LIVRO_KEY);
                     livros.add(livro);
-                    ((BaseAdapter) lvLivros.getAdapter()).notifyDataSetChanged();
+                    updateAdapter(lvLivros);
                     break;
                 case CADASTRO_RESERVA_REQUEST_CODE:
                     Reserva reserva = data.getParcelableExtra(CADASTRO_RESERVA_KEY);
@@ -178,12 +215,12 @@ public class MainActivity extends AppCompatActivity {
                 case LIVRO_REQUEST_CODE:
                     Livro livroEditado = data.getParcelableExtra(LIVRO_KEY);
                     livros.set(livroEditado.getId(), livroEditado);
-                    ((BaseAdapter) lvLivros.getAdapter()).notifyDataSetChanged();
+                    updateAdapter(lvLivros);
                     break;
                 case PESSOA_REQUEST_CODE:
                     Pessoa pessoaEditada = data.getParcelableExtra(PESSOA_KEY);
                     pessoas.set(pessoaEditada.getId(), pessoaEditada);
-                    ((BaseAdapter) lvPessoas.getAdapter()).notifyDataSetChanged();
+                    updateAdapter(lvPessoas);
                     break;
             }
         }
