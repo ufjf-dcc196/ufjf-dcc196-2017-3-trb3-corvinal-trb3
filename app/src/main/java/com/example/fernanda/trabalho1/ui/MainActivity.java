@@ -16,10 +16,8 @@ import com.example.fernanda.trabalho1.R;
 import com.example.fernanda.trabalho1.dao.ContratoBanco;
 import com.example.fernanda.trabalho1.dao.LivroDao;
 import com.example.fernanda.trabalho1.dao.PessoaDao;
-import com.example.fernanda.trabalho1.dao.ReservaDao;
 import com.example.fernanda.trabalho1.model.Livro;
 import com.example.fernanda.trabalho1.model.Pessoa;
-import com.example.fernanda.trabalho1.model.Reserva;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,16 +32,12 @@ import static com.example.fernanda.trabalho1.ui.PessoaActivity.PESSOA_KEY;
 public class MainActivity extends AppCompatActivity {
 
     public static final String NOME_BD = "bd_bienal";
-    private static final int LIVRO_REQUEST_CODE = 40;
-    private static final int PESSOA_REQUEST_CODE = 50;
 
     private List<Pessoa> pessoas;
     private List<Livro> livros;
-    private List<Reserva> reservas;
 
     private PessoaDao pessoaDao;
     private LivroDao livroDao;
-    private ReservaDao reservaDao;
 
     private ListView lvPessoas;
     private ListView lvLivros;
@@ -64,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         pessoas = pessoaDao.getPessoas();
         livros = livroDao.getLivros();
-        reservas = reservaDao.getReservas();
         updateAdapter(lvPessoas);
         updateAdapter(lvLivros);
     }
@@ -78,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
         ContratoBanco.criarTabelas(db);
         pessoaDao = new PessoaDao(db);
         livroDao = new LivroDao(db);
-        reservaDao = new ReservaDao(db);
     }
 
     private void popularDados() {
@@ -91,8 +83,6 @@ public class MainActivity extends AppCompatActivity {
         for(Pessoa pessoa : pessoas) pessoaDao.inserirPessoa(pessoa);
 
         for(Livro livro: livros) livroDao.inserirLivro(livro);
-
-        reservaDao.inserirReserva(new Reserva(pessoas.get(1), livros.get(2)));
     }
 
     private void setupListView(){
@@ -131,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(MainActivity.this, PessoaActivity.class);
                 intent.putExtra(PESSOA_KEY, pessoas.get(i));
-                startActivityForResult(intent, PESSOA_REQUEST_CODE);
+                startActivity(intent);
             }
         });
     }
@@ -146,8 +136,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(MainActivity.this, LivroActivity.class);
                 intent.putExtra(LIVRO_KEY, livros.get(i));
-                intent.putParcelableArrayListExtra(LivroActivity.RESERVAS_KEY, (ArrayList<Reserva>) reservas);
-                startActivityForResult(intent, LIVRO_REQUEST_CODE);
+                startActivity(intent);
             }
         });
     }
@@ -180,23 +169,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == RESULT_OK){
-            switch(requestCode){
-                case LIVRO_REQUEST_CODE:
-                    Livro livroEditado = data.getParcelableExtra(LIVRO_KEY);
-                    livros.set(livroEditado.getId(), livroEditado);
-                    updateAdapter(lvLivros);
-                    break;
-                case PESSOA_REQUEST_CODE:
-                    Pessoa pessoaEditada = data.getParcelableExtra(PESSOA_KEY);
-                    pessoas.set(pessoaEditada.getId(), pessoaEditada);
-                    updateAdapter(lvPessoas);
-                    break;
-            }
-        }
     }
 }

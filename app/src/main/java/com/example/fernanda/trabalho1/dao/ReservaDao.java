@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.fernanda.trabalho1.dao.LivroConstantes.TABELA_LIVRO;
-import static com.example.fernanda.trabalho1.dao.PessoaConstantes.COLUNA_NOME;
 import static com.example.fernanda.trabalho1.dao.PessoaConstantes.TABELA_PESSOA;
 import static com.example.fernanda.trabalho1.dao.ReservaConstantes.COLUNA_ID_LIVRO;
 import static com.example.fernanda.trabalho1.dao.ReservaConstantes.COLUNA_ID_PESSOA;
@@ -26,24 +25,14 @@ public class ReservaDao {
     }
 
     public List<Reserva> getReservas() {
-        String selectQuery = "SELECT  * FROM " + TABELA_RESERVA + " tr " +
-                "INNER JOIN " + TABELA_LIVRO + " tl ON tr." + COLUNA_ID_LIVRO + " = tl." +
-                LivroConstantes.COLUNA_ID + " INNER JOIN " + TABELA_PESSOA + " tp ON tr." +
-                COLUNA_ID_PESSOA + " = tp." + PessoaConstantes.COLUNA_ID + ";";
-        final Cursor c = db.rawQuery(selectQuery, null);
-        c.moveToFirst();
-        List<Reserva> reservas = new ArrayList<>(c.getCount());
-        if (c.moveToFirst()){
-            do {
-                System.out.println(c.getInt(c.getColumnIndex(COLUNA_ID_PESSOA)));
-                System.out.println(c.getInt(c.getColumnIndex(COLUNA_NOME)));
-                Reserva reserva = new Reserva(
-                        PessoaDao.getPessoaFromCursor(c), LivroDao.getLivroFromCursor(c));
-                reservas.add(reserva);
-            } while(c.moveToNext());
-        }
-        c.close();
-        return reservas;
+        String selectQuery = getSelectJoinQuery();
+        return getReservasFromQuery(selectQuery);
+    }
+
+    public List<Reserva> getReservasComLivro(int id) {
+        String selectQuery = getSelectJoinQuery() +
+                " WHERE tl." + LivroConstantes.COLUNA_ID + " = " + id;
+        return getReservasFromQuery(selectQuery);
     }
 
     public void inserirReserva(Reserva reserva) {
@@ -59,6 +48,30 @@ public class ReservaDao {
 
     public void deletarReserva(int id) {
         db.delete(TABELA_RESERVA, "id=?", new String[] { String.valueOf(id) });
+    }
+
+    @NonNull
+    private String getSelectJoinQuery() {
+        return "SELECT  * FROM " + TABELA_RESERVA + " tr " +
+                "INNER JOIN " + TABELA_LIVRO + " tl ON tr." + COLUNA_ID_LIVRO + " = tl." +
+                LivroConstantes.COLUNA_ID + " INNER JOIN " + TABELA_PESSOA + " tp ON tr." +
+                COLUNA_ID_PESSOA + " = tp." + PessoaConstantes.COLUNA_ID;
+    }
+
+    @NonNull
+    private List<Reserva> getReservasFromQuery(String selectQuery) {
+        final Cursor c = db.rawQuery(selectQuery, null);
+        c.moveToFirst();
+        List<Reserva> reservas = new ArrayList<>(c.getCount());
+        if (c.moveToFirst()){
+            do {
+                Reserva reserva = new Reserva(
+                        PessoaDao.getPessoaFromCursor(c), LivroDao.getLivroFromCursor(c));
+                reservas.add(reserva);
+            } while(c.moveToNext());
+        }
+        c.close();
+        return reservas;
     }
 
     @NonNull

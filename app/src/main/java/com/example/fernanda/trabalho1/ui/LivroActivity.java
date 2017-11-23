@@ -1,6 +1,6 @@
 package com.example.fernanda.trabalho1.ui;
 
-import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -11,11 +11,14 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.example.fernanda.trabalho1.R;
+import com.example.fernanda.trabalho1.dao.LivroDao;
+import com.example.fernanda.trabalho1.dao.ReservaDao;
 import com.example.fernanda.trabalho1.model.Livro;
 import com.example.fernanda.trabalho1.model.Reserva;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.fernanda.trabalho1.ui.MainActivity.NOME_BD;
 
 public class LivroActivity extends AppCompatActivity {
 
@@ -26,12 +29,15 @@ public class LivroActivity extends AppCompatActivity {
     private EditText etEditora;
     private EditText etAnoPublicacao;
 
+    private SQLiteDatabase db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_livro);
 
         Livro livro = getIntent().getParcelableExtra(LIVRO_KEY);
+        db = openOrCreateDatabase(NOME_BD, MODE_PRIVATE, null);
 
         setupViews(livro.getId());
         showData(livro);
@@ -59,9 +65,7 @@ public class LivroActivity extends AppCompatActivity {
                     ViewUtils.showToast(LivroActivity.this, "O ano de publicação é obrigatório!");
                 } else {
                     Livro livroEditado = new Livro(livroId, titulo, editora, anoPublicacao);
-                    Intent intent = new Intent();
-                    intent.putExtra(LIVRO_KEY, livroEditado);
-                    setResult(RESULT_OK, intent);
+                    new LivroDao(db).updateLivro(livroEditado);
                     finish();
                 }
             }
@@ -69,16 +73,9 @@ public class LivroActivity extends AppCompatActivity {
     }
 
     private void setupListView(Livro livro){
-        final List<Reserva> reservas = getIntent().getParcelableArrayListExtra(RESERVAS_KEY);
-        final List<Reserva> reservasLivro = new ArrayList<>();
+        final List<Reserva> reservas = new ReservaDao(db).getReservasComLivro(livro.getId());
 
-        for (Reserva r : reservas) {
-            if(r.getLivro().getId() == livro.getId()){
-                reservasLivro.add(r);
-            }
-        }
-
-        final ListAdapter reservasAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, reservasLivro);
+        final ListAdapter reservasAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, reservas);
         ListView lvPessoas = (ListView) findViewById(R.id.lv_pessoas_reserva);
         lvPessoas.setAdapter(reservasAdapter);
     }

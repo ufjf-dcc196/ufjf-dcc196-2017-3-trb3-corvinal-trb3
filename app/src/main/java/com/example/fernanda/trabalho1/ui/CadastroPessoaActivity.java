@@ -37,8 +37,8 @@ public class CadastroPessoaActivity extends AppCompatActivity {
                 } else if (email.isEmpty()){
                     ViewUtils.showToast(CadastroPessoaActivity.this, "O email é obrigatório!");
                 } else {
-                    SQLiteDatabase db = openOrCreateDatabase(NOME_BD, MODE_PRIVATE, null);
                     Pessoa pessoa = new Pessoa(0, nome, email);
+                    SQLiteDatabase db = openOrCreateDatabase(NOME_BD, MODE_PRIVATE, null);
                     new PessoaDao(db).inserirPessoa(pessoa);
                     finish();
                 }

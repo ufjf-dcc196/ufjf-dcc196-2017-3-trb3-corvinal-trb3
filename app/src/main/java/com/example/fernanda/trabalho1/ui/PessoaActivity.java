@@ -1,6 +1,6 @@
 package com.example.fernanda.trabalho1.ui;
 
-import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -9,10 +9,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.fernanda.trabalho1.R;
+import com.example.fernanda.trabalho1.dao.PessoaDao;
 import com.example.fernanda.trabalho1.model.Pessoa;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+
+import static com.example.fernanda.trabalho1.ui.MainActivity.NOME_BD;
 
 public class PessoaActivity extends AppCompatActivity {
 
@@ -49,9 +52,8 @@ public class PessoaActivity extends AppCompatActivity {
                     ViewUtils.showToast(PessoaActivity.this, "O email é obrigatório!");
                 } else {
                     Pessoa pessoaEditada = new Pessoa(pessoaId, nome, email);
-                    Intent intent = new Intent();
-                    intent.putExtra(PESSOA_KEY, pessoaEditada);
-                    setResult(RESULT_OK, intent);
+                    SQLiteDatabase db = openOrCreateDatabase(NOME_BD, MODE_PRIVATE, null);
+                    new PessoaDao(db).updatePessoa(pessoaEditada);
                     finish();
                 }
             }
