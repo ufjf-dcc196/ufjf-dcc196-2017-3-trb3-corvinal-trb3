@@ -1,6 +1,6 @@
 package com.example.fernanda.trabalho1.ui;
 
-import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -9,11 +9,16 @@ import android.widget.Button;
 import android.widget.Spinner;
 
 import com.example.fernanda.trabalho1.R;
+import com.example.fernanda.trabalho1.dao.LivroDao;
+import com.example.fernanda.trabalho1.dao.PessoaDao;
+import com.example.fernanda.trabalho1.dao.ReservaDao;
 import com.example.fernanda.trabalho1.model.Livro;
 import com.example.fernanda.trabalho1.model.Pessoa;
 import com.example.fernanda.trabalho1.model.Reserva;
 
 import java.util.List;
+
+import static com.example.fernanda.trabalho1.ui.MainActivity.NOME_BD;
 
 public class CadastroReservaActivity extends AppCompatActivity {
 
@@ -30,8 +35,9 @@ public class CadastroReservaActivity extends AppCompatActivity {
         final Spinner spPessoa = (Spinner)findViewById(R.id.et_pessoa);
         final Button btnCadastrar = (Button) findViewById(R.id.btn_cadastrar_reserva);
 
-        final List<Livro> livros = getIntent().getParcelableArrayListExtra(LIVROS_KEY);
-        final List<Pessoa> pessoas = getIntent().getParcelableArrayListExtra(PESSOAS_KEY);
+        final SQLiteDatabase db = openOrCreateDatabase(NOME_BD, MODE_PRIVATE, null);
+        final List<Livro> livros = new LivroDao(db).getLivros();
+        final List<Pessoa> pessoas = new PessoaDao(db).getPessoas();
 
         ArrayAdapter<Livro> livroArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, livros);
         livroArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
@@ -57,11 +63,8 @@ public class CadastroReservaActivity extends AppCompatActivity {
                 } else {
                     Livro livro = livros.get(livroIndice);
                     Pessoa pessoa = pessoas.get(pessoaIndice);
-
                     Reserva reserva = new Reserva(pessoa , livro);
-                    Intent intent = new Intent();
-                    intent.putExtra(CADASTRO_RESERVA_KEY, reserva);
-                    setResult(RESULT_OK, intent);
+                    new ReservaDao(db).inserirReserva(reserva);
                     finish();
                 }
             }

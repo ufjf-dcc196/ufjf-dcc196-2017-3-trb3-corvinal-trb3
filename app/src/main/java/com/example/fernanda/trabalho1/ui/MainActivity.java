@@ -26,9 +26,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import static com.example.fernanda.trabalho1.ui.CadastroLivroActivity.CADASTRO_LIVRO_KEY;
-import static com.example.fernanda.trabalho1.ui.CadastroPessoaActivity.CADASTRO_PESSOA_KEY;
-import static com.example.fernanda.trabalho1.ui.CadastroReservaActivity.CADASTRO_RESERVA_KEY;
 import static com.example.fernanda.trabalho1.ui.LivroActivity.LIVRO_KEY;
 import static com.example.fernanda.trabalho1.ui.PessoaActivity.PESSOA_KEY;
 
@@ -37,9 +34,6 @@ import static com.example.fernanda.trabalho1.ui.PessoaActivity.PESSOA_KEY;
 public class MainActivity extends AppCompatActivity {
 
     public static final String NOME_BD = "bd_bienal";
-    private static final int CADASTRO_PESSOA_REQUEST_CODE = 10;
-    private static final int CADASTRO_LIVRO_REQUEST_CODE = 20;
-    private static final int CADASTRO_RESERVA_REQUEST_CODE = 30;
     private static final int LIVRO_REQUEST_CODE = 40;
     private static final int PESSOA_REQUEST_CODE = 50;
 
@@ -164,8 +158,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, CadastroPessoaActivity.class);
-                intent.putExtra(CadastroPessoaActivity.ID_PESSOA_KEY, pessoas.size());
-                startActivityForResult(intent, CADASTRO_PESSOA_REQUEST_CODE);
+                startActivity(intent);
             }
         });
 
@@ -174,8 +167,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, CadastroLivroActivity.class);
-                intent.putExtra(CadastroLivroActivity.ID_LIVRO_KEY, livros.size());
-                startActivityForResult(intent, CADASTRO_LIVRO_REQUEST_CODE);
+                startActivity(intent);
             }
         });
 
@@ -184,11 +176,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, CadastroReservaActivity.class);
-                intent.putParcelableArrayListExtra(CadastroReservaActivity.LIVROS_KEY,
-                        (ArrayList<Livro>) livros);
-                intent.putParcelableArrayListExtra(CadastroReservaActivity.PESSOAS_KEY,
-                        (ArrayList<Pessoa>) pessoas);
-                startActivityForResult(intent, CADASTRO_RESERVA_REQUEST_CODE);
+                startActivity(intent);
             }
         });
 
@@ -198,20 +186,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode == RESULT_OK){
             switch(requestCode){
-                case CADASTRO_PESSOA_REQUEST_CODE:
-                    Pessoa pessoa = data.getParcelableExtra(CADASTRO_PESSOA_KEY);
-                    pessoas.add(pessoa);
-                    updateAdapter(lvPessoas);
-                    break;
-                case CADASTRO_LIVRO_REQUEST_CODE:
-                    Livro livro = data.getParcelableExtra(CADASTRO_LIVRO_KEY);
-                    livros.add(livro);
-                    updateAdapter(lvLivros);
-                    break;
-                case CADASTRO_RESERVA_REQUEST_CODE:
-                    Reserva reserva = data.getParcelableExtra(CADASTRO_RESERVA_KEY);
-                    reservas.add(reserva);
-                    break;
                 case LIVRO_REQUEST_CODE:
                     Livro livroEditado = data.getParcelableExtra(LIVRO_KEY);
                     livros.set(livroEditado.getId(), livroEditado);

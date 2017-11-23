@@ -1,6 +1,6 @@
 package com.example.fernanda.trabalho1.ui;
 
-import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -8,7 +8,10 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.fernanda.trabalho1.R;
+import com.example.fernanda.trabalho1.dao.PessoaDao;
 import com.example.fernanda.trabalho1.model.Pessoa;
+
+import static com.example.fernanda.trabalho1.ui.MainActivity.NOME_BD;
 
 public class CadastroPessoaActivity extends AppCompatActivity {
 
@@ -34,11 +37,9 @@ public class CadastroPessoaActivity extends AppCompatActivity {
                 } else if (email.isEmpty()){
                     ViewUtils.showToast(CadastroPessoaActivity.this, "O email é obrigatório!");
                 } else {
-                    int id = getIntent().getIntExtra(ID_PESSOA_KEY, 0);
-                    Pessoa pessoa = new Pessoa(id, nome, email);
-                    Intent intent = new Intent();
-                    intent.putExtra(CADASTRO_PESSOA_KEY, pessoa);
-                    setResult(RESULT_OK, intent);
+                    SQLiteDatabase db = openOrCreateDatabase(NOME_BD, MODE_PRIVATE, null);
+                    Pessoa pessoa = new Pessoa(0, nome, email);
+                    new PessoaDao(db).inserirPessoa(pessoa);
                     finish();
                 }
             }
