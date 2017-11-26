@@ -1,4 +1,4 @@
-package com.example.fernanda.trabalho1;
+package com.example.fernanda.trabalho3;
 
 import org.junit.Test;
 

@@ -1,36 +1,34 @@
 <resources>
-    <string name="app_name">Bienal</string>
+    <string name="app_name">Trab 3</string>
 
-    <string name="main_cadastrar_pessoa">Cadastrar Pessoa</string>
-    <string name="main_cadastrar_livro">Cadastrar Livro</string>
+    <string name="main_cadastrar_pessoa">Cadastrar Tag</string>
+    <string name="main_cadastrar_livro">Cadastrar Tarefa</string>
     <string name="main_reservar_livro">Reservar Livro</string>
 
     <string name="pessoa_title">DADOS</string>
     <string name="pessoa_format_nome">Nome: %s</string>
     <string name="pessoa_format_email">Email: %s</string>
-    <string name="pessoa_format_entrada">Entrada: %s</string>
-    <string name="pessoa_format_saida">Saída: %s</string>
     <string name="pessoa_data_inexistente">Não informado</string>
-    <string name="cadastro_pessoas_title">Cadastro de pessoas</string>
-    <string name="cadastro_pessoa_hint_nome">Nome completo</string>
-    <string name="cadastro_pessoa_hint_email">Email</string>
-    <string name="cadastro_livros_title">Cadastro de livros</string>
-    <string name="cadastro_livros_hint_titulo">Título</string>
-    <string name="cadastro_livros_hint_editora">Editora</string>
+    <string name="cadastro_pessoas_title">Cadastro de tags</string>
+    <string name="cadastro_tag_hint_nome">Nome</string>
+    <string name="cadastro_tarefas_title">Cadastro de tarefas</string>
+    <string name="cadastro_tarefas_hint_titulo">Título</string>
+    <string name="cadastro_tarefas_hint_descricao">Descrição</string>
     <string name="cadastro_livros_hint_ano_publicacao">Ano Publicação</string>
     <string name="cadastro_reservas_title">Cadastro de reservas</string>
     <string name="cadastro_reservas_hint_livro">Livro</string>
     <string name="cadastro_reservas_hint_pessoa">Pessoa</string>
     <string name="livro_format_titulo">Título: %s</string>
-    <string name="livro_format_editora">Editora: %s</string>
     <string name="livro_format_anoPublicacao">Ano de Publicação: %s</string>
     <string name="all_cadastrar">Cadastrar</string>
-    <string name="text_reservas">RESERVAS</string>
-    <string name="label_titulo">Títuo:</string>
-    <string name="label_editora">Editora:</string>
-    <string name="label_ano_publicacao">Ano de publicação:</string>
+    <string name="text_tarefas">TAREFAS</string>
+    <string name="label_titulo">Título:</string>
+    <string name="label_descricao">Descrição:</string>
+    <string name="label_estado">Estado:</string>
     <string name="label_nome">Nome:</string>
     <string name="label_email">E-mail:</string>
     <string name="all_text_salvar">Salvar</string>
+    <string name="label_adicionar_tags">Adicionar tags</string>
+    <string name="label_tags">Tags:</string>
 
 </resources>

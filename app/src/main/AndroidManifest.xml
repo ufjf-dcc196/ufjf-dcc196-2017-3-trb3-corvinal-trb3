@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.fernanda.trabalho1">
+    package="com.example.fernanda.trabalho3">
 
     <application
         android:allowBackup="true"
@@ -9,20 +9,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.MainActivity">
+        <activity android:name="com.example.fernanda.trabalho3.ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.LivroActivity"
+        <activity android:name="com.example.fernanda.trabalho3.ui.TarefaActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".ui.PessoaActivity"
+        <activity android:name="com.example.fernanda.trabalho3.ui.TagActivity"
             android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".ui.CadastroPessoaActivity" />
-        <activity android:name=".ui.CadastroLivroActivity" />
-        <activity android:name=".ui.CadastroReservaActivity" />
+        <activity android:name="com.example.fernanda.trabalho3.ui.CadastroTagActivity" />
+        <activity android:name="com.example.fernanda.trabalho3.ui.CadastroTarefaActivity" />
     </application>
 
 </manifest>

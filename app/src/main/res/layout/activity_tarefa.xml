@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    tools:context="com.example.fernanda.trabalho1.ui.LivroActivity">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:gravity="center">
 
     <TextView
         android:layout_width="wrap_content"
@@ -23,7 +21,7 @@
             android:text="@string/label_titulo"/>
 
         <EditText
-            android:id="@+id/et_livro_titulo"
+            android:id="@+id/et_tarefa_titulo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"/>
@@ -37,10 +35,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/label_editora"/>
+            android:text="@string/label_descricao"/>
 
         <EditText
-            android:id="@+id/et_livro_editora"
+            android:id="@+id/et_tarefa_descricao"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"/>
@@ -52,16 +50,32 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/tv_anoPublicacao"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/label_ano_publicacao" />
+            android:text="@string/label_estado" />
 
-        <EditText
-            android:id="@+id/et_livro_ano_publicacao"
+        <Spinner
+            android:id="@+id/sp_tarefa_estado"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="number"/>
+            android:text="@string/label_tags"
+            android:textSize="18sp" />
+
+        <io.apptik.widget.multiselectspinner.MultiSelectSpinner
+            android:id="@+id/msp_tarefa_tags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <Button
@@ -70,16 +84,5 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/all_text_salvar"/>
-
-    <TextView
-        android:id="@+id/tv_titulo_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/text_reservas" />
-
-    <ListView
-        android:id="@+id/lv_pessoas_reserva"
-        android:layout_width="match_parent"
-        android:layout_height="180dp" />
 
 </LinearLayout>
