@@ -43,7 +43,7 @@ public class TagActivity
     private void setupViews(final int tagId) {
         etNome = (EditText) findViewById(R.id.et_tag_nome);
 
-        Button btnSalvar = (Button) findViewById(R.id.btn_pessoa_salvar);
+        Button btnSalvar = (Button) findViewById(R.id.btn_tag_salvar);
         btnSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,8 +64,8 @@ public class TagActivity
         final List<Tarefa> tarefas = new TarefaDao(db).getTarefasComTag(tag);
 
         final ListAdapter reservasAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tarefas);
-        ListView lvPessoas = (ListView) findViewById(R.id.lv_tag_tarefas);
-        lvPessoas.setAdapter(reservasAdapter);
+        ListView lvTarefas = (ListView) findViewById(R.id.lv_tag_tarefas);
+        lvTarefas.setAdapter(reservasAdapter);
     }
 
     private void showData(Tag tag) {

@@ -127,9 +127,9 @@ public class MainActivity
     }
 
     private void setupListViewTarefas() {
-        final ListAdapter livrosAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tarefas);
+        final ListAdapter tarefasAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tarefas);
         lvTarefas = (ListView) findViewById(R.id.lv_tarefas);
-        lvTarefas.setAdapter(livrosAdapter);
+        lvTarefas.setAdapter(tarefasAdapter);
 
         lvTarefas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

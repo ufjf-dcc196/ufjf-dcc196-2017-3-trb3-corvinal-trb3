@@ -63,7 +63,7 @@ public class TarefaActivity
                 android.R.layout.simple_list_item_multiple_choice, tags);
         mspTags.setListAdapter(tagsAdapter);
 
-        Button btnSalvar = (Button) findViewById(R.id.btn_livro_salvar);
+        Button btnSalvar = (Button) findViewById(R.id.btn_tarefa_salvar);
         btnSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

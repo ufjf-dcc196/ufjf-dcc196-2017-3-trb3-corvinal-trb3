@@ -46,18 +46,18 @@ public class TagDao {
     }
 
     public void inserirTag(Tag tag) {
-        ContentValues contentValues = getContentValuesFromPessoa(tag);
+        ContentValues contentValues = getContentValuesFromTag(tag);
         tag.setId((int) db.insert(TABELA_TAG, null, contentValues));
     }
 
     public void updateTag(Tag tag) {
-        ContentValues contentValues = getContentValuesFromPessoa(tag);
+        ContentValues contentValues = getContentValuesFromTag(tag);
         db.update(TABELA_TAG, contentValues, TagConstantes.COLUNA_ID + "=?",
                 new String[]{ String.valueOf(tag.getId()) });
     }
 
     @NonNull
-    private ContentValues getContentValuesFromPessoa(Tag tag) {
+    private ContentValues getContentValuesFromTag(Tag tag) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUNA_NOME, tag.getNome());
         return contentValues;

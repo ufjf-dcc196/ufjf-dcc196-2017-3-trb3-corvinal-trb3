@@ -4,7 +4,7 @@ class TarefaConstantes {
 
     private TarefaConstantes() { }
 
-    static final String TABELA_TAREFA = "tb_livro";
+    static final String TABELA_TAREFA = "tb_tarefa";
     static final String COLUNA_ID = "id_tarefa";
     static final String COLUNA_TITULO = "titulo";
     static final String COLUNA_DESCRICAO = "descricao";

@@ -8,7 +8,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/pessoa_title"/>
+        android:text="@string/tag_title"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -79,7 +79,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/btn_livro_salvar"
+        android:id="@+id/btn_tarefa_salvar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

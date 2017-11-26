@@ -39,7 +39,7 @@ public class CadastroTarefaActivity extends AppCompatActivity {
         final EditText etTitulo = (EditText) findViewById(R.id.et_tarefa_titulo);
         final EditText etDescricao = (EditText) findViewById(R.id.et_tarefa_descricao);
         final Spinner spEstado = (Spinner) findViewById(R.id.sp_tarefa_estado);
-        final Button btnCadastrar = (Button) findViewById(R.id.btn_cadastrar_livro);
+        final Button btnCadastrar = (Button) findViewById(R.id.btn_cadastrar_tarefa);
         mspTags = (MultiSelectSpinner) findViewById(R.id.msp_tarefa_tags);
 
         ArrayAdapter<EstadoTarefa> estadosAdapter = new ArrayAdapter<>(this,
